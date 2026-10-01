@@ -6,7 +6,7 @@
 
 ## Installation
 
-### Using `uv` (recommended)
+### Using `uv`
 
 ```bash
 git clone https://github.com/adri0/delaycp.git
