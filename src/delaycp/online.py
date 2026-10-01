@@ -124,8 +124,12 @@ class PIDQuantileTracker:
         Uses the finite-sample correction: the ``ceil((n + 1) * (1 - alpha))``-th
         smallest score. If that rank exceeds ``n`` the exact answer is
         ``+inf``; the largest score is used instead so the tracker stays
-        usable. The result is not clipped to ``[0, 1]``. Also resets the
-        integrator sum and ``n_updates`` to 0.
+        usable (an infinite P state would never move again). This is a
+        deliberate deviation: in that edge case the split-conformal
+        finite-sample guarantee no longer holds for the initial threshold,
+        though the online long-run guarantee is unaffected. The result is not
+        clipped to ``[0, 1]``. Also resets the integrator sum and
+        ``n_updates`` to 0.
 
         Parameters
         ----------

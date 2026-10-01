@@ -44,6 +44,8 @@ def test_p_only_long_run_bound(
 ) -> None:
     # q_{T+1} = q_1 + lr * sum(err - alpha), and q stays in [-lr*alpha, b + lr*(1-alpha)]
     # (b = 1 is the score bound), so |avg err - alpha| <= max(...) / (lr * T).
+    # This bound is derived here rather than copied from the paper; it allows
+    # any q_init (not only q_init in [0, b]) and has the paper's O(1/T) rate.
     tr = PIDQuantileTracker(alpha, lr, q_init=q_init)
     errs = _run(tr, np.asarray(scores))
     n = len(scores)
@@ -64,6 +66,11 @@ def _reference_quantile(scores: np.ndarray, alpha: float, lr: float) -> np.ndarr
 
     ``proportional_lr=False``, ``KI=0``, ``ahead=1`` (no delay). Returns the q
     in effect at each step.
+
+    The integrator is left out on purpose: the reference sums errors over
+    ``[:t]`` (excluding the newest), one step behind the paper, which
+    ``PIDQuantileTracker`` follows, so the two would not match exactly. The
+    integrator is tested against the closed-form formula instead.
     """
     qs = np.zeros(len(scores))
     qts = np.zeros(len(scores))
