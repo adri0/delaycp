@@ -163,7 +163,7 @@ def worst_window_coverage(
     under-coverage is harmful, so the worst window is the lowest one.
     """
     rc = rolling_coverage(y, sets, window, cls)
-    return float(rc.min()) if rc.size else math.nan
+    return float(np.min(rc)) if rc.size else math.nan
 
 
 def action_rates(actions: ArrayLike, sets: ArrayLike | None = None) -> ActionRates:
