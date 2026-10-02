@@ -11,6 +11,21 @@ from delaycp.online import PIDQuantileTracker
 from delaycp.types import Action, Thresholds
 
 
+def sets_from_thresholds(p_fraud: ArrayLike, th: Thresholds) -> NDArray[np.bool_]:
+    """Boolean ``(n, 2)`` array; column ``y`` is True iff class ``y`` is in the set."""
+    p = np.asarray(p_fraud, dtype=float)
+    return np.stack([p <= th.t_high, p >= th.t_low], axis=1)
+
+
+def actions_from_thresholds(p_fraud: ArrayLike, th: Thresholds) -> NDArray[np.int_]:
+    """Map sets to actions: ``{0}`` APPROVE, ``{1}`` DECLINE, ``{0,1}``/empty REVIEW."""
+    sets = sets_from_thresholds(p_fraud, th)
+    actions = np.full(sets.shape[0], Action.REVIEW, dtype=int)
+    actions[sets[:, 0] & ~sets[:, 1]] = Action.APPROVE
+    actions[~sets[:, 0] & sets[:, 1]] = Action.DECLINE
+    return actions
+
+
 class MondrianPID:
     """One :class:`PIDQuantileTracker` per class, on ``s(x, y) = 1 - p_hat(y | x)``.
 
@@ -63,17 +78,11 @@ class MondrianPID:
 
     def predict_sets(self, p_fraud: ArrayLike) -> NDArray[np.bool_]:
         """Boolean ``(n, 2)`` array; column ``y`` is True iff class ``y`` is in the set."""
-        p = np.asarray(p_fraud, dtype=float)
-        th = self.thresholds
-        return np.stack([p <= th.t_high, p >= th.t_low], axis=1)
+        return sets_from_thresholds(p_fraud, self.thresholds)
 
     def predict_actions(self, p_fraud: ArrayLike) -> NDArray[np.int_]:
         """Map sets to actions: ``{0}`` APPROVE, ``{1}`` DECLINE, ``{0,1}``/empty REVIEW."""
-        sets = self.predict_sets(p_fraud)
-        actions = np.full(sets.shape[0], Action.REVIEW, dtype=int)
-        actions[sets[:, 0] & ~sets[:, 1]] = Action.APPROVE
-        actions[~sets[:, 0] & sets[:, 1]] = Action.DECLINE
-        return actions
+        return actions_from_thresholds(p_fraud, self.thresholds)
 
     def update(self, p_fraud: float, y: int, thresholds_used: Thresholds) -> None:
         """Update only the true class's tracker, with the threshold used at prediction time."""
