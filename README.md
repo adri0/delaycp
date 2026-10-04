@@ -42,3 +42,5 @@ ruff check .
 mypy src
 pytest
 ```
+
+`tests/test_scenarios.py` checks the package's claims on simulated streams (about 30 s). Skip it with `pytest -m "not slow"`. To regenerate the markdown table of scenario results, run `python -m benchmarks.scenario_report` from the repository root.

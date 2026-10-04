@@ -39,6 +39,9 @@ line-length = 99
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "N"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["delaycp", "benchmarks"]
+
 [tool.mypy]
 python_version = "3.11"
 strict = true
@@ -46,3 +49,4 @@ files = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["slow: simulation-based scenario tests (deselect with -m 'not slow')"]
