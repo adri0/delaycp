@@ -35,6 +35,15 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
+## Examples
+
+[`examples/ieee_cis_chargebacks.py`](examples/ieee_cis_chargebacks.py) runs delaycp on the [Kaggle IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection/data) data with simulated chargeback delays. It compares a fixed score band, static split conformal, static Mondrian split conformal, and delaycp in coverage and budget modes. [`examples/ieee_cis_chargebacks.ipynb`](examples/ieee_cis_chargebacks.ipynb) walks through the same steps with commentary. Download `train_transaction.csv` and `train_identity.csv` yourself, then:
+
+```bash
+uv sync --extra examples   # LightGBM, pandas, matplotlib, Jupyter: example-only dependencies
+uv run python examples/ieee_cis_chargebacks.py path/to/ieee-cis
+```
+
 ## Development
 
 ```bash
