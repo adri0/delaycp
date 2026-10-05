@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "delaycp"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "Online conformal prediction for streaming classification with delayed, class-imbalanced labels."
 readme = "README.md"
 license = "MIT"
@@ -26,12 +26,20 @@ dependencies = ["numpy>=2.0,<3"]
 dev = ["pytest>=8", "hypothesis>=6", "ruff>=0.6", "mypy>=1.10"]
 # Only for examples/; not needed by the package.
 examples = ["lightgbm>=4", "pandas>=2", "matplotlib>=3.8", "jupyter>=1"]
+# Only for building the documentation site (docs/).
+docs = ["zensical>=0.0.68", "mkdocstrings-python>=2", "nbconvert>=7"]
 
 [project.urls]
 Homepage = "https://github.com/adri0/delaycp"
+Documentation = "https://adri0.github.io/delaycp/"
+Source = "https://github.com/adri0/delaycp"
+Issues = "https://github.com/adri0/delaycp/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/delaycp"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/delaycp", "tests", "benchmarks", "README.md", "LICENSE", "CITATION.cff"]
 
 [tool.ruff]
 src = ["src", "tests", "examples"]

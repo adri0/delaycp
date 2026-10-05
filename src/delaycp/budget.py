@@ -54,7 +54,7 @@ class BudgetController:
     Notes
     -----
     The internal state is never clipped; only the value used for decisions
-    is, via :meth:`effective_t_low` (``min(t_low, t_high)``). If the state
+    is, via [`effective_t_low`][] (``min(t_low, t_high)``). If the state
     exceeds ``t_high`` the band collapses to a point, the review rate drops
     below budget and the state is driven back down, so it stays bounded
     whenever the budget is attainable (``review_budget`` below the fraction of

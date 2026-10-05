@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use delaycp, please cite it as below."
+type: software
+title: "delaycp: online conformal prediction for streaming classification with delayed, class-imbalanced labels"
+abstract: >-
+  delaycp wraps any binary classifier that outputs P(fraud) and produces
+  approve / review / decline decisions with per-class coverage guarantees
+  under delayed labels, class imbalance and drift, using conformal PID
+  control with Mondrian thresholds and delay-aware updates.
+authors:
+  - family-names: Oliveira
+    given-names: Adriano
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/adri0/delaycp"
+url: "https://adri0.github.io/delaycp/"
+keywords:
+  - conformal prediction
+  - online learning
+  - fraud detection
+  - delayed labels
+  - class imbalance
+  - distribution shift

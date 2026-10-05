@@ -71,17 +71,17 @@ class History:
 class OnlineConformalClassifier:
     """Mondrian PID conformal classifier for streams with delayed labels.
 
-    Combines :class:`~delaycp.mondrian.MondrianPID` and
-    :class:`~delaycp.delay.DelayBuffer`. Each prediction is registered with
+    Combines [`MondrianPID`][delaycp.mondrian.MondrianPID] and
+    [`DelayBuffer`][delaycp.delay.DelayBuffer]. Each prediction is registered with
     the thresholds in effect when it is made; its update is applied only once
     its label arrives (or it matures), in release order. Batches must arrive
     in time order.
 
     In ``mode="coverage"`` both band edges are conformal thresholds. In
     ``mode="budget"`` ``t_high`` still comes from the legit tracker, but
-    ``t_low`` comes from a :class:`~delaycp.budget.BudgetController` that
+    ``t_low`` comes from a [`BudgetController`][delaycp.budget.BudgetController] that
     holds the REVIEW rate near ``review_budget``; fraud labels are then used
-    only for :meth:`estimated_fraud_coverage`. See :mod:`delaycp.budget` for
+    only for [`estimated_fraud_coverage`][]. See [`delaycp.budget`][] for
     the trade-off between the two modes.
 
     Parameters
@@ -93,7 +93,7 @@ class OnlineConformalClassifier:
     ki : float, default 0.0
         PID integral gain.
     maturity : float or None, default None
-        Maximum label wait; see :class:`~delaycp.delay.DelayBuffer`.
+        Maximum label wait; see [`DelayBuffer`][delaycp.delay.DelayBuffer].
     unlabeled_at_maturity : int or None, default 0
         Label imputed for items that mature unlabeled; ``None`` drops them.
     history_size : int, default 0
@@ -108,7 +108,7 @@ class OnlineConformalClassifier:
         Per-batch step size of the budget controller. Defaults to ``lr``.
     fraud_log_size : int, default 10_000
         Number of recent fraud outcomes kept for
-        :meth:`estimated_fraud_coverage`.
+        [`estimated_fraud_coverage`][].
     """
 
     def __init__(
@@ -199,7 +199,7 @@ class OnlineConformalClassifier:
         Returns
         -------
         numpy.ndarray
-            Integer :class:`~delaycp.types.Action` values, one per transaction.
+            Integer [`Action`][delaycp.types.Action] values, one per transaction.
 
         Raises
         ------
@@ -234,7 +234,7 @@ class OnlineConformalClassifier:
         ys: ArrayLike,
         label_times: ArrayLike,
     ) -> None:
-        """Record arrived labels; they take effect at the next :meth:`advance`."""
+        """Record arrived labels; they take effect at the next [`advance`][]."""
         y = np.asarray(ys, dtype=int)
         lt = np.asarray(label_times, dtype=float)
         if not (len(tx_ids) == y.shape[0] == lt.shape[0]):
@@ -249,7 +249,7 @@ class OnlineConformalClassifier:
         -------
         int
             Number of labels released (in budget mode, fraud labels only feed
-            :meth:`estimated_fraud_coverage`).
+            [`estimated_fraud_coverage`][]).
         """
         released = self._buffer.pop_ready(now)
         for r in released:
