@@ -24,6 +24,8 @@ dependencies = ["numpy>=2.0,<3"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "hypothesis>=6", "ruff>=0.6", "mypy>=1.10"]
+# Only for examples/; not needed by the package.
+examples = ["lightgbm>=4", "pandas>=2", "matplotlib>=3.8", "jupyter>=1"]
 
 [project.urls]
 Homepage = "https://github.com/adri0/delaycp"
@@ -32,7 +34,7 @@ Homepage = "https://github.com/adri0/delaycp"
 packages = ["src/delaycp"]
 
 [tool.ruff]
-src = ["src", "tests"]
+src = ["src", "tests", "examples"]
 target-version = "py311"
 line-length = 99
 
