@@ -11,7 +11,7 @@ from delaycp.types import Thresholds
 
 @dataclass(frozen=True)
 class Released:
-    """A prediction released by :class:`DelayBuffer` for updating.
+    """A prediction released by [`DelayBuffer`][] for updating.
 
     Parameters
     ----------
@@ -86,7 +86,7 @@ class DelayBuffer:
     disproportionately fraud (chargebacks). Neither is unbiased; choose
     ``maturity`` beyond the bulk of the delay distribution.
 
-    "Pending" means registered and not yet released by :meth:`pop_ready`.
+    "Pending" means registered and not yet released by [`pop_ready`][].
     """
 
     def __init__(self, maturity: float | None, unlabeled_at_maturity: int | None = 0) -> None:

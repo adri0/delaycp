@@ -2,7 +2,7 @@
 
 Pure functions over aligned arrays: ``y`` (0/1 labels), ``sets`` (``(n, 2)``
 bool, column ``c`` True iff class ``c`` is in the set) and ``actions``
-(:class:`~delaycp.types.Action` ints). Coverage of an example is judged on the
+([`Action`][delaycp.types.Action] ints). Coverage of an example is judged on the
 set it was given at prediction time, so pass the sets that were actually
 produced, not ones recomputed from current thresholds.
 """
@@ -54,7 +54,7 @@ class Cost(NamedTuple):
 
 
 class Summary(TypedDict, total=False):
-    """Report returned by :func:`summary`; optional keys appear only when requested."""
+    """Report returned by [`summary`][]; optional keys appear only when requested."""
 
     n: int
     class_coverage: dict[int, CoverageEstimate]
@@ -111,7 +111,7 @@ def class_coverage(y: ArrayLike, sets: ArrayLike) -> dict[int, CoverageEstimate]
 def marginal_coverage(y: ArrayLike, sets: ArrayLike) -> float:
     """Fraction of examples whose true label is in the set (``nan`` if empty).
 
-    Dominated by the majority (legit) class; prefer :func:`class_coverage`.
+    Dominated by the majority (legit) class; prefer [`class_coverage`][].
     """
     labels, s = _labels_and_sets(y, sets)
     return _rate(_covered(labels, s))
@@ -156,7 +156,7 @@ def rolling_coverage(
 def worst_window_coverage(
     y: ArrayLike, sets: ArrayLike, window: int, cls: int | None = 1
 ) -> float:
-    """Minimum of :func:`rolling_coverage` (``nan`` if fewer than ``window`` examples).
+    """Minimum of [`rolling_coverage`][] (``nan`` if fewer than ``window`` examples).
 
     A one-sided version of the local coverage error of Bhatnagar et al.
     (2023), ``max_windows |coverage - (1 - alpha)|``: for fraud, only
@@ -172,7 +172,7 @@ def action_rates(actions: ArrayLike, sets: ArrayLike | None = None) -> ActionRat
     Parameters
     ----------
     actions : array_like of int
-        :class:`~delaycp.types.Action` values.
+        [`Action`][delaycp.types.Action] values.
     sets : array_like of bool, optional
         ``(n, 2)`` prediction sets. Needed for ``empty``, since an empty set
         and a two-class set both map to REVIEW.
@@ -241,7 +241,7 @@ def coverage_measured_at(
 ) -> CoverageEstimate:
     """Coverage over only the labels known by ``now``, as production would see it.
 
-    Compare with :func:`class_coverage` / :func:`marginal_coverage` on all
+    Compare with [`class_coverage`][] / [`marginal_coverage`][] on all
     labels (the truth) to see how much delay hides. Recent predictions,
     which reflect the newest thresholds, are the ones still missing.
 

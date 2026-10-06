@@ -149,8 +149,8 @@ class AdversarialScores:
     ``scores(start, stop)`` asks ``thresholds_fn`` for the current thresholds
     and places those frauds uniformly in ``[t_low - margin, t_low)`` (clipped
     to ``[0, 1]``), i.e. just below the auto-approve edge. Call it in stream
-    order, just before predicting rows ``start:stop``; :func:`replay` does
-    this. The realised scores are kept in :attr:`values` (``nan`` until set).
+    order, just before predicting rows ``start:stop``; [`replay`][] does
+    this. The realised scores are kept in ``values`` (``nan`` until set).
 
     All randomness is drawn up front, so results are deterministic given the
     generator and the sequence of thresholds.
@@ -183,9 +183,9 @@ class AdversarialScores:
 
 @dataclass(frozen=True)
 class Stream:
-    """A synthetic stream from :func:`make_stream`.
+    """A synthetic stream from [`make_stream`][].
 
-    ``p_fraud`` is an array, or :class:`AdversarialScores` for the
+    ``p_fraud`` is an array, or [`AdversarialScores`][] for the
     ``"adversarial"`` scenario. ``fraud_rate`` is the per-row probability
     that ``y = 1`` (the ground-truth prevalence path).
     """
@@ -233,7 +233,7 @@ def make_stream(
           higher inside ``spike_window`` (fractions of ``horizon``).
         - ``"adversarial"``: a fraction ``adversarial_fraction`` of frauds
           sit just below the current ``t_low``; requires ``thresholds_fn``
-          and returns :class:`AdversarialScores` as ``p_fraud``.
+          and returns [`AdversarialScores`][] as ``p_fraud``.
     thresholds_fn : callable, optional
         Returns the thresholds in force now, e.g. ``lambda: clf.thresholds``.
         Only for ``"adversarial"``.
@@ -279,11 +279,11 @@ def make_stream(
 
 @dataclass(frozen=True)
 class ReplayResult:
-    """Per-transaction outputs of :func:`replay`, in stream order.
+    """Per-transaction outputs of [`replay`][], in stream order.
 
     ``sets`` and ``actions`` were produced with the thresholds in effect at
     prediction time (``t_low``, ``t_high``), so they can go straight into
-    :mod:`delaycp.metrics`.
+    [`delaycp.metrics`][].
     """
 
     y: NDArray[np.int_]
@@ -319,11 +319,11 @@ def replay(
     p_fraud : array_like of float, or callable
         Scores, or ``f(start, stop)`` returning the scores of rows
         ``start:stop`` (called once per batch, in order, before predicting),
-        such as :class:`AdversarialScores`.
+        such as [`AdversarialScores`][].
     y : array_like of int
         True labels.
     label_times : array_like of float
-        Label arrival times from :func:`inject_delays`; ``nan`` is treated as
+        Label arrival times from [`inject_delays`][]; ``nan`` is treated as
         ``inf``.
     batch_size : int, default 1
         Rows predicted together with the same thresholds.

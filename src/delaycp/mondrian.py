@@ -27,7 +27,7 @@ def actions_from_thresholds(p_fraud: ArrayLike, th: Thresholds) -> NDArray[np.in
 
 
 class MondrianPID:
-    """One :class:`PIDQuantileTracker` per class, on ``s(x, y) = 1 - p_hat(y | x)``.
+    """One [`PIDQuantileTracker`][] per class, on ``s(x, y) = 1 - p_hat(y | x)``.
 
     Parameters
     ----------
@@ -38,7 +38,7 @@ class MondrianPID:
     ki : float, default 0.0
         Integral gain of both trackers.
     min_class_count : int, default 50
-        Warn in :meth:`fit_calibration` if a class has fewer examples.
+        Warn in [`fit_calibration`][] if a class has fewer examples.
     """
 
     def __init__(
